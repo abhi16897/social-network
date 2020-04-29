@@ -17,7 +17,7 @@ function App() {
       <div className="container">
         <Route exact path="/register" component={Register}></Route>
         <Route exact path="/login" component={Login}></Route>
-        <Route exact path="/profilr" component={Profile}></Route>
+        <Route exact path="/profile" component={Profile}></Route>
       </div>
       </div>
     </Router>

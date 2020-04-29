@@ -21,6 +21,7 @@ class Login extends Component {
           password:this.state.password
       }
       login(user).then(res=>{
+            console.log("logged in")
                 this.props.history.push(`/profile`)
       })
   }

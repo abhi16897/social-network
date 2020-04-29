@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom'
+import {Link,withRouter} from 'react-router-dom'
+
 
 class Navbar extends Component {
     logOut(e){
         e.preventDefault()
         localStorage.removeItem('userToken')
-        const {history} =this.props
-        history.push(`/`)
+        this.props.history.push(`/`)
     }
     render() { 
         const loginRegLink=(
@@ -49,4 +49,4 @@ class Navbar extends Component {
     }
 }
  
-export default Navbar;
+export default withRouter(Navbar);

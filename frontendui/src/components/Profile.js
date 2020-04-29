@@ -24,19 +24,7 @@ class Profile extends Component {
     render() { 
         return ( 
             <div className="container">
-                <div className="jumbotron mt-5">
-                    <div className="col-ms-8 mx-auto">
-                        <h1 className="text-center">
-                            {this.state.firstname+'hello'}
-                        </h1><br/>
-                        <h1 className="text-center">
-                            {this.state.lastname}
-                        </h1><br/>
-                        <h1 className="text-center">
-                            {this.state.username}
-                        </h1>
-                    </div>
-                </div>
+                     <h1 className="mt-5">{'Welcome!'+this.state.firstname}</h1>
             </div>
          );
     }
