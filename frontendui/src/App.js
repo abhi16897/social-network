@@ -6,10 +6,12 @@ import Profile from './components/Profile'
 import Register from './components/Register'
 import Login from './components/Login'
 import Landing from './components/Landing'
+import UploadMedia from './components/UploadMedia';
 
 
 function App() {
   return (
+    <div>
     <Router>
       <div className="App">
       <Navbar/>
@@ -18,9 +20,11 @@ function App() {
         <Route exact path="/register" component={Register}></Route>
         <Route exact path="/login" component={Login}></Route>
         <Route exact path="/profile" component={Profile}></Route>
+        <Route exact path="/upload" component={UploadMedia}></Route>
       </div>
       </div>
     </Router>
+    </div>
   );
 }
 

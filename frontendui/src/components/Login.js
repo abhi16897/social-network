@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {login} from './Userfunctions'
+import {Link} from 'react-router-dom'
 
 class Login extends Component {
   constructor(){
@@ -40,7 +41,10 @@ class Login extends Component {
                                 <label htmlFor="password">Password</label>
                                 <input type="password" className="form-control" name="password" placeholder="enter Password" value={this.state.password} onChange={this.onChange}></input>
                              </div>
-                             <button type="submit" className="btn btn-lg btn-primary"> 
+                             <div>
+                             <Link to="/register" className="mb-4">Plase Do register </Link>
+                             </div>
+                             <button type="submit" className="btn btn-lg btn-primary mt-2"> 
                                 Sign in
                              </button>
                         </form>
