@@ -20,10 +20,11 @@ posts.use(cors())
 posts.post('/uploadmedia',upload.single('image'),(req,res)=>{
     console.log(req.file)
     const mediaDetail={
+        title:req.body.title,
         caption:req.body.caption,
         description:req.body.description,
         username:req.body.username,
-        image:req.file.filename,
+        image:'http://localhost:5000/profile/'+req.file.filename,
         upload_date:Date.now(),
         likes:req.body.likes
     }

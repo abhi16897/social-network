@@ -13,6 +13,7 @@ app.use(bodyParser.urlencoded({extended:false}))
 
 var Users= require('./routes/Users')
 var Media= require('./routes/Media')
+app.use('/profile',express.static('images/'))
 app.use('/users',Users)
 app.use('/posts',Media)
 

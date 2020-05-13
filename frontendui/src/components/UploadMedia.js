@@ -67,7 +67,7 @@ class UploadMedia extends Component {
                     <input type="text" className="form-control" name="caption" placeholder="enter Caption" value={this.state.caption} onChange={this.onChangeFields}></input>
           </div>
           <div className="form-group">
-                  <label htmlFor="desciption">Title</label>
+                  <label htmlFor="desciption">Description</label>
                     <textarea type="text" className="form-control" name="description" placeholder="enter Description" value={this.state.description} onChange={this.onChangeFields}></textarea>
           </div>
           <button onClick={this.handleSubmit} className="btn btn-primary" > Upload</button>
