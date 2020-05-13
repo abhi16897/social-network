@@ -52,7 +52,6 @@ users.post('/register',(req,res)=>{
                         expiresIn:1440
                     })
                     res.send(token)
-                    res.send('hello')
                 }   
             }else{
                 res.status(400).send({error:'User does not exists'})

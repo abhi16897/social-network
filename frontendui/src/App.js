@@ -7,6 +7,7 @@ import Register from './components/Register'
 import Login from './components/Login'
 import Landing from './components/Landing'
 import UploadMedia from './components/UploadMedia';
+import Gallery from './components/Gallery';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route exact path="/login" component={Login}></Route>
         <Route exact path="/profile" component={Profile}></Route>
         <Route exact path="/upload" component={UploadMedia}></Route>
+        <Route exact path='/gallery' component={Gallery}></Route>
       </div>
       </div>
     </Router>

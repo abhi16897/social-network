@@ -1,129 +1,81 @@
-import React, {useMemo,useEffect, useState} from 'react';
-import {useDropzone} from 'react-dropzone';
-
-const baseStyle = {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: '20px',
-    borderWidth: 2,
-    borderRadius: 2,
-    borderColor: '#eeeeee',
-    borderStyle: 'dashed',
-    backgroundColor: '#fafafa',
-    color: '#bdbdbd',
-    outline: 'none',
-    transition: 'border .24s ease-in-out'
-  };
-  
-  const activeStyle = {
-    borderColor: '#2196f3'
-  };
-  
-  const acceptStyle = {
-    borderColor: '#00e676'
-  };
-  
-  const rejectStyle = {
-    borderColor: '#ff1744'
-  };
-  // -------------------Image Style---------
-
-  const thumbsContainer = {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginTop: 16
-  };
-  
-  const thumb = {
-    display: 'inline-flex',
-    borderRadius: 2,
-    border: '1px solid #eaeaea',
-    marginBottom: 8,
-    marginRight: 8,
-    width: 100,
-    height: 100,
-    padding: 4,
-    boxSizing: 'border-box'
-  };
-  
-  const thumbInner = {
-    display: 'flex',
-    minWidth: 0,
-    overflow: 'hidden'
-  };
-  
-  const img = {
-    display: 'block',
-    width: 'auto',
-    height: '100%'
-  };
-
-function UploadMedia(props){
-    const [files, setFiles] = useState([]);
-    const {
-        acceptedFiles,
-       // rejectedFiles,
-        getRootProps,
-        getInputProps,
-        isDragActive,
-        isDragAccept,
-        isDragReject
-      } = useDropzone({accept: 'image/*', onDrop: acceptedFiles => {
-        setFiles(acceptedFiles.map(file => Object.assign(file, {
-          preview: URL.createObjectURL(file)
-        })));
-      }});
-      const style = useMemo(() => ({
-        ...baseStyle,
-        ...(isDragActive ? activeStyle : {}),
-        ...(isDragAccept ? acceptStyle : {}),
-        ...(isDragReject ? rejectStyle : {})
-      }), [
-        isDragActive,
-        isDragReject,
-        isDragAccept
-      ]);
-      const thumbs = files.map(file => (
-        <div style={thumb} key={file.name}>
-          <div style={thumbInner}>
-            <img alt="not selected"
-              src={file.preview}
-              style={img}
-            />
-          </div>
-        </div>
-      ));
-    
-      useEffect(() => () => {
-        files.forEach(file => URL.revokeObjectURL(file.preview));
-      }, [files]);
-
-      
-  const acceptedFilesItems = acceptedFiles.map(file => (
-    <li key={file.path}>
-      {file.path} - {file.size} bytes
-    </li>
-  ));
-  return (
-    <section className="container">
-    <div {...getRootProps({style})}>
-      <input {...getInputProps()} />
-      <p>Drag an image here, or click to select Image</p>
-      <em>(Only *.jpeg and *.png images will be accepted)</em>
-    </div>
-    <aside>
-      <h4>Accepted files</h4>
-      <ul>
-        {acceptedFilesItems}
-      </ul>
-    </aside>
-    <aside style={thumbsContainer}>
-        {thumbs}
-      </aside>
-  </section>
-  );
+import React,{Component} from 'react';
+import axios from 'axios'
+import jwt_decode from 'jwt-decode'
+class UploadMedia extends Component {
+  constructor(){
+    super()
+    this.state={
+      image:null,
+      title:'',
+      caption:'',
+      username:'',
+      description:''
+    }
+  //  this.myref=React.createRef();
+     this.handleSubmit=this.handleSubmit.bind(this)
+    this.handleChange=this.handleChange.bind(this)
+    this.onChangeFields=this.onChangeFields.bind(this)
   }
-  export default UploadMedia
+  handleChange=(e)=>{
+    e.preventDefault()
+    console.log(e.target.files[0])
+    this.setState({image:e.target.files[0]})
+    var reader = new FileReader();
+    var url = reader.readAsDataURL(e.target.files[0]);
+  
+     reader.onloadend = function (e) {
+        this.setState({
+            imgSrc: [reader.result]
+        })
+      }.bind(this)
+      console.log(url)
+  }
+  onChangeFields(e){
+    e.preventDefault()
+    this.setState({[e.target.name]:e.target.value})
+}
+  handleSubmit=(e)=>{
+    e.preventDefault()
+    const token=localStorage.userToken
+    const decoded=jwt_decode(token)
+    console.log(decoded.username)
+    const data=new FormData()
+   data.append('image',this.state.image)
+   data.append('title',this.state.title)
+   data.append('caption',this.state.caption)
+   data.append('description',this.state.description)
+   data.append('username',decoded.username)
+   console.log(data)
+    axios.post('posts/uploadmedia',data).then(res=>{
+      console.log(res )
+    }) 
+  }
+  render() { 
+    return ( 
+      <section>
+      <form encType='multipart/form-data'>     
+      <div className="form-group">
+                  <label htmlFor="title">Upload Image</label>
+           <input type="file" name="myfile"  className="form-control" onChange={this.handleChange}></input>
+           </div>
+           <div className="form-group">
+                  <label htmlFor="title">Title</label>
+                    <input type="text" className="form-control" name="title" placeholder="enter Title" value={this.state.title} onChange={this.onChangeFields}></input>
+          </div>
+          <div className="form-group">
+                  <label htmlFor="caption">Caption</label>
+                    <input type="text" className="form-control" name="caption" placeholder="enter Caption" value={this.state.caption} onChange={this.onChangeFields}></input>
+          </div>
+          <div className="form-group">
+                  <label htmlFor="desciption">Title</label>
+                    <textarea type="text" className="form-control" name="description" placeholder="enter Description" value={this.state.description} onChange={this.onChangeFields}></textarea>
+          </div>
+          <button onClick={this.handleSubmit} className="btn btn-primary" > Upload</button>
+          </form>  
+          <img src={this.state.imgSrc}   alt="Please select" width="250" height="250" className="mt-5"/>
+      </section>
+     );
+  }
+}
+ 
+export default UploadMedia;
