@@ -31,14 +31,14 @@ posts.post('/uploadmedia',upload.single('image'),(req,res)=>{
         res.send('Media Uploaded')
     })
 })
-posts.get('/retrievemedia',(req,res)=>{
+posts.post('/retrievemedia',upload.single('image'),(req,res)=>{
 
     postinsert.findAll({
         where:{
             username:req.body.username
         }
     }).then(poasters=>{
-       console.log(poasters)
+      // console.log(poasters)
         res.send(poasters)
         
     })

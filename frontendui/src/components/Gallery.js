@@ -13,7 +13,7 @@ class Gallery extends Component {
         componentDidMount(){
         const token=localStorage.userToken
         const decoded=jwt_decode(token)
-        axios.get('posts/retrievemedia',decoded.username).then(res=>{
+        axios.post('posts/retrievemedia',{username:decoded.username}).then(res=>{
             this.setState({data:res.data})
         })
         console.log(this.state.data)
