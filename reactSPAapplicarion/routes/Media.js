@@ -44,4 +44,17 @@ posts.post('/retrievemedia',upload.single('image'),(req,res)=>{
         
     })
 })
+posts.delete('/deleteitem/:post_id',upload.single('image'),(req,res)=>{
+    postinsert.destroy({
+        where:{post_id:req.params.post_id}
+    }).then(num=>{
+        if(num==1){
+            res.send('Deleted Sucsessfully')
+        }else{
+            res.send('Unable to delete y')
+        }
+    }).catch(err=>{
+        res.status(500).send('Unable to delete This post ! Please try Again')
+    })
+})
 module.exports=posts

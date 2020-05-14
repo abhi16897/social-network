@@ -8,16 +8,23 @@ class Gallery extends Component {
             data:[]
         }
        // this.getData=this.getData.bind(this)
+       this.deleteItem=this.deleteItem.bind(this)
     }
-
+    deleteItem=(id)=>{
+        axios.delete('posts/deleteitem/'+id).then(res=>{
+            console.log(res)
+               const updateditems= this.state.data.filter(dataitem=>dataitem.post_id!==id);
+               this.setState({data:updateditems})
+        })
+    }
         componentDidMount(){
         const token=localStorage.userToken
         const decoded=jwt_decode(token)
         axios.post('posts/retrievemedia',{username:decoded.username}).then(res=>{
             this.setState({data:res.data})
         })
-        console.log(this.state.data)
     }
+       
     render() { 
      
         return ( 
@@ -31,6 +38,7 @@ class Gallery extends Component {
                         <h4 className="card-title"><b>Title:</b>{data.title}</h4>
                         <p className="card-text"><b>Caption:</b>{data.caption}</p>
                         <p className="card-text"><b>Description:</b>{data.description}</p>
+                        <button className="btn btn-danger" onClick={()=>this.deleteItem(data.post_id)}>Delete</button>
                         </div>
                         </div>
                             )     

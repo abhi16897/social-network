@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import axios from 'axios'
+import { withRouter } from 'react-router';
 import jwt_decode from 'jwt-decode'
 class UploadMedia extends Component {
   constructor(){
@@ -48,6 +49,7 @@ class UploadMedia extends Component {
    console.log(data)
     axios.post('posts/uploadmedia',data).then(res=>{
       console.log(res )
+      this.props.history.push(`/gallery`)
     }) 
   }
   render() { 
@@ -78,4 +80,4 @@ class UploadMedia extends Component {
   }
 }
  
-export default UploadMedia;
+export default withRouter(UploadMedia);
